@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Catálogo de Jogos</h1>
+
+{% if messages %}
+  {% for message in messages %}
+    <p>{{ message }}</p>
+  {% endfor %}
+{% endif %}
+
+<form method="get">
+    <input type="text" name="q" placeholder="Buscar por nome" value="{{ request.GET.q }}">
+
+    <select name="categoria">
+        <option value="">Todas as categorias</option>
+        {% for categoria in categorias %}
+            <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="plataforma">
+        <option value="">Todas as plataformas</option>
+        {% for plataforma in plataformas %}
+            <option value="{{ plataforma.id }}">{{ plataforma.nome }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Filtrar</button>
+</form>
+
+{% if user.is_authenticated %}
+    <a href="{% url 'jogos:criar' %}">+ Cadastrar novo jogo</a>
+{% endif %}
+
+<ul>
+{% for jogo in jogos %}
+    <li>
+        <a href="{% url 'jogos:detalhe' jogo.pk %}">{{ jogo.nome }}</a>
+        — R$ {{ jogo.preco }} — {{ jogo.get_tipo_midia_display }}
+    </li>
+{% empty %}
+    <li>Nenhum jogo encontrado.</li>
+{% endfor %}
+</ul>
+
+{% if is_paginated %}
+    <div>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+        {% endif %}
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

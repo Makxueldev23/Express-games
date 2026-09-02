@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ jogo.nome }}</h1>
+
+{% if jogo.imagem %}
+    <img src="{{ jogo.imagem.url }}" alt="{{ jogo.nome }}">
+{% endif %}
+
+<p>{{ jogo.descricao }}</p>
+<p>Preço: R$ {{ jogo.preco }}</p>
+<p>Tipo de mídia: {{ jogo.get_tipo_midia_display }}</p>
+<p>Estoque: {% if jogo.tipo_midia == 'digital' %}Ilimitado{% else %}{{ jogo.estoque }}{% endif %}</p>
+
+<p>Categorias: {% for categoria in jogo.categorias.all %}{{ categoria.nome }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+<p>Plataformas: {% for plataforma in jogo.plataformas.all %}{{ plataforma.nome }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+
+{% if user.is_authenticated %}
+    <a href="{% url 'jogos:editar' jogo.pk %}">Editar</a>
+    <a href="{% url 'jogos:excluir' jogo.pk %}">Excluir</a>
+{% endif %}
+
+<a href="{% url 'jogos:lista' %}">Voltar ao catálogo</a>
+{% endblock %}

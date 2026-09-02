@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Excluir Jogo</h1>
+
+<p>Tem certeza que deseja excluir "{{ object.nome }}"?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirmar exclusão</button>
+</form>
+
+<a href="{% url 'jogos:detalhe' object.pk %}">Cancelar</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{% if jogo %}Editar Jogo{% else %}Cadastrar Jogo{% endif %}</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar</button>
+</form>
+
+<a href="{% url 'jogos:lista' %}">Cancelar</a>
+{% endblock %}
