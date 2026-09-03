@@ -1,0 +1,34 @@
+{% extends 'contas/base.html' %}
+
+{% block title %}Meu Perfil{% endblock %}
+
+{% block content %}
+
+<h1>Meu Perfil</h1>
+
+<p>
+    <strong>Usuário:</strong>
+    {{ usuario.username }}
+</p>
+
+<p>
+    <strong>E-mail:</strong>
+    {{ usuario.email }}
+</p>
+
+<p>
+    <strong>Data de cadastro:</strong>
+    {{ usuario.date_joined|date:"d/m/Y H:i" }}
+</p>
+
+<a href="{% url 'contas:editar_perfil' %}">
+    Editar perfil
+</a>
+
+<br><br>
+
+<a href="{% url 'contas:logout' %}">
+    Sair
+</a>
+
+{% endblock %}
