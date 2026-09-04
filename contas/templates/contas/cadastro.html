@@ -1,0 +1,17 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<h1>Criar conta</h1>
+
+{% if messages %}
+  {% for message in messages %}<p>{{ message }}</p>{% endfor %}
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Cadastrar</button>
+</form>
+
+<a href="{% url 'contas:login' %}">Já tem conta? Entrar</a>
+{% endblock %}

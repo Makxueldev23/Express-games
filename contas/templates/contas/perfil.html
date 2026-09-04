@@ -1,0 +1,11 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<h1>Meu perfil</h1>
+
+<p>Usuário: {{ usuario.username }}</p>
+<p>Email: {{ usuario.email }}</p>
+
+<a href="{% url 'contas:editar_perfil' %}">Editar perfil</a>
+<a href="{% url 'contas:logout' %}">Sair</a>
+{% endblock %}
