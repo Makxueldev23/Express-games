@@ -16,6 +16,14 @@
 <p>Plataformas: {% for plataforma in jogo.plataformas.all %}{{ plataforma.nome }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
 
 {% if user.is_authenticated %}
+    <form method="post" action="{% url 'pedidos:adicionar_carrinho' jogo.pk %}">
+        {% csrf_token %}
+        <input type="number" name="quantidade" value="1" min="1">
+        <button type="submit">Adicionar ao carrinho</button>
+    </form>
+{% endif %}
+
+{% if user.is_staff %}
     <a href="{% url 'jogos:editar' jogo.pk %}">Editar</a>
     <a href="{% url 'jogos:excluir' jogo.pk %}">Excluir</a>
 {% endif %}

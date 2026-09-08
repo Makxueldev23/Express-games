@@ -1,9 +1,17 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Jogo, Categoria, Plataforma
 from .forms import JogoForm
+
+
+class StaffRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
+    """Só membros da equipe (is_staff) podem cadastrar, editar ou excluir jogos.
+    Clientes comuns continuam vendo e comprando normalmente."""
+
+    def test_func(self):
+        return self.request.user.is_staff
 
 
 class JogoListView(ListView):
@@ -40,7 +48,7 @@ class JogoDetailView(DetailView):
     context_object_name = 'jogo'
 
 
-class JogoCreateView(LoginRequiredMixin, CreateView):
+class JogoCreateView(StaffRequiredMixin, CreateView):
     model = Jogo
     form_class = JogoForm
     template_name = 'jogos/jogo_formulario.html'
@@ -51,7 +59,7 @@ class JogoCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class JogoUpdateView(LoginRequiredMixin, UpdateView):
+class JogoUpdateView(StaffRequiredMixin, UpdateView):
     model = Jogo
     form_class = JogoForm
     template_name = 'jogos/jogo_formulario.html'
@@ -62,7 +70,7 @@ class JogoUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class JogoDeleteView(LoginRequiredMixin, DeleteView):
+class JogoDeleteView(StaffRequiredMixin, DeleteView):
     model = Jogo
     template_name = 'jogos/jogo_confirmar_exclusao.html'
     success_url = reverse_lazy('jogos:lista')

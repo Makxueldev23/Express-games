@@ -2,9 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.core.exceptions import ValidationError
 
-from jogos.models import Jogo
 
-    
 class Pedido(models.Model):
     STATUS_CHOICES = [
         ('pendente', 'Pendente'),
@@ -34,7 +32,7 @@ class Pedido(models.Model):
 
 class ItemPedido(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name='itens')
-    jogo = models.ForeignKey(Jogo, on_delete=models.PROTECT, related_name='itens_pedido')
+    jogo = models.ForeignKey('jogos.Jogo', on_delete=models.PROTECT, related_name='itens_pedido')
     quantidade = models.PositiveIntegerField(default=1)
     preco_unitario = models.DecimalField(max_digits=8, decimal_places=2)
 
