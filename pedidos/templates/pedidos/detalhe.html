@@ -12,5 +12,9 @@
 
 <p><strong>Total: R$ {{ pedido.total }}</strong></p>
 
+{% if pedido.status == 'pendente' %}
+<a href="{% url 'pedidos:cancelar' pedido.pk %}">Cancelar pedido</a>
+{% endif %}
+
 <a href="{% url 'pedidos:lista' %}">Voltar</a>
 {% endblock %}

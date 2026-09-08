@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Cancelar Pedido #{{ pedido.pk }}?</h1>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirmar cancelamento</button>
+</form>
+<a href="{% url 'pedidos:detalhe' pedido.pk %}">Voltar</a>
+{% endblock %}
