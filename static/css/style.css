@@ -346,7 +346,7 @@ form input[type="radio"] {
   border-top-left-radius: var(--raio-borda-lg);
   border-top-right-radius: var(--raio-borda-lg);
   object-fit: cover;
-  height: 180px;
+  height: 80%;
 }
 
 .badge-rosa {

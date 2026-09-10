@@ -74,7 +74,7 @@ def finalizar_pedido(request):
     try:
         for jogo_id, quantidade in carrinho.items():
             jogo = get_object_or_404(Jogo, pk=jogo_id)
-            item = ItemPedido(pedido=pedido, jogo=jogo, quantidade=quantidade)
+            item = ItemPedido(pedido=pedido, jogo=jogo, quantidade=quantidade, preco_unitario=jogo.preco)
             item.full_clean()
             item.save()
             jogo.baixar_estoque(quantidade)
