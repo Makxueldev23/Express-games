@@ -21,7 +21,7 @@ class JogoListView(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        qs = Jogo.objects.all()
+        qs = Jogo.objects.all().order_by('nome')
         termo = self.request.GET.get('q')
         categoria_id = self.request.GET.get('categoria')
         plataforma_id = self.request.GET.get('plataforma')
