@@ -1,15 +1,24 @@
 ﻿{% extends "base.html" %}
 
 {% block content %}
-<h1>Meus pedidos</h1>
+<h1 class="mb-4">Meus pedidos</h1>
 
-<ul>
+{% if pedidos %}
+<ul class="list-unstyled">
 {% for pedido in pedidos %}
-    <li><a href="{% url 'pedidos:detalhe' pedido.pk %}">Pedido #{{ pedido.pk }} — {{ pedido.status }}</a></li>
-{% empty %}
-    <li>Nenhum pedido ainda.</li>
+    <li class="order-row list-group-item p-3">
+        <a href="{% url 'pedidos:detalhe' pedido.pk %}" class="order-row-link">
+            <span class="order-row-title">Pedido #{{ pedido.pk }}</span>
+            <span class="badge-rosa">{{ pedido.status }}</span>
+        </a>
+    </li>
 {% endfor %}
 </ul>
+{% else %}
+<div class="empty-state">
+    <p class="mb-0">Nenhum pedido ainda.</p>
+</div>
+{% endif %}
 
-<a href="{% url 'pedidos:carrinho' %}">Ver carrinho</a>
+<a href="{% url 'pedidos:carrinho' %}" class="d-inline-block mt-3">Ver carrinho</a>
 {% endblock %}

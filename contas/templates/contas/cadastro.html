@@ -1,17 +1,24 @@
 ﻿{% extends "base.html" %}
 
 {% block content %}
-<h1>Criar conta</h1>
+<div class="row justify-content-center">
+  <div class="col-12 col-md-7 col-lg-5">
+    <div class="auth-card card p-4">
+      <h1 class="mb-1">Criar conta</h1>
+      <p class="auth-subtitle mb-4">Cadastre-se para comprar e acompanhar seus pedidos.</p>
 
-{% if messages %}
-  {% for message in messages %}<p>{{ message }}</p>{% endfor %}
-{% endif %}
+      {% if messages %}
+        {% for message in messages %}<p class="alert alert-{{ message.tags|default:'info' }}">{{ message }}</p>{% endfor %}
+      {% endif %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Cadastrar</button>
-</form>
+      <form method="post" class="mb-3">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+      </form>
 
-<a href="{% url 'contas:login' %}">Já tem conta? Entrar</a>
+      <p class="auth-footer-text mb-0">Já tem conta? <a href="{% url 'contas:login' %}">Entrar</a></p>
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -1,11 +1,37 @@
 ﻿{% extends "base.html" %}
 
 {% block content %}
-<h1>Meu perfil</h1>
+<div class="row justify-content-center">
+  <div class="col-12 col-md-7 col-lg-6">
+    <div class="profile-card card p-4">
+      <div class="profile-header">
+        <span class="avatar-circle" aria-hidden="true">{{ usuario.username|slice:":1"|upper }}</span>
+        <div>
+          <h1 class="mb-1">{{ usuario.username }}</h1>
+          {% if usuario.is_staff %}
+            <span class="badge-rosa">Equipe</span>
+          {% else %}
+            <span class="badge-outline">Cliente</span>
+          {% endif %}
+        </div>
+      </div>
 
-<p>Usuário: {{ usuario.username }}</p>
-<p>Email: {{ usuario.email }}</p>
+      <hr class="profile-divider">
 
-<a href="{% url 'contas:editar_perfil' %}">Editar perfil</a>
-<a href="{% url 'contas:logout' %}">Sair</a>
+      <div class="info-row">
+        <span class="info-label">Usuário</span>
+        <span class="info-value">{{ usuario.username }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Email</span>
+        <span class="info-value">{{ usuario.email }}</span>
+      </div>
+
+      <div class="d-flex gap-2 mt-4">
+        <a href="{% url 'contas:editar_perfil' %}" class="btn btn-primary">Editar perfil</a>
+        <a href="{% url 'contas:logout' %}" class="btn btn-outline-dark">Sair</a>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

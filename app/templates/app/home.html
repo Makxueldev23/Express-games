@@ -6,6 +6,42 @@
 
 {% block content %}
 
-<h1>Olá, Makxuel!</h1>
+<section class="hero text-center py-5">
+    <h1 class="display-5 fw-bold">Bem vindo a Express Games!</h1>
+    <p class="lead">Sua loja de jogos de PS4 e PS5.</p>
+    <a href="{% url 'jogos:lista' %}" class="btn btn-primary btn-lg mt-3">Ver catálogo</a>
+</section>
+
+<section class="feature-grid row row-cols-1 row-cols-md-3 g-3 my-4">
+    <div class="col">
+        <div class="feature-card">
+            <span class="feature-icon" aria-hidden="true"></span>
+            <p class="feature-title">Física e digital</p>
+            <p class="feature-text">Escolha entre mídia física, com estoque controlado, ou digital, sempre disponível.</p>
+        </div>
+    </div>
+    <div class="col">
+        <div class="feature-card">
+            <span class="feature-icon" aria-hidden="true"></span>
+            <p class="feature-title">Catálogo com filtros</p>
+            <p class="feature-text">Busque por nome, categoria ou plataforma e encontre o jogo certo mais rápido.</p>
+        </div>
+    </div>
+    <div class="col">
+        <div class="feature-card">
+            <span class="feature-icon" aria-hidden="true"></span>
+            <p class="feature-title">Pedidos acompanhados</p>
+            <p class="feature-text">Acompanhe cada pedido, do carrinho até a confirmação, direto na sua conta.</p>
+        </div>
+    </div>
+</section>
+
+{% if not user.is_authenticated %}
+<section class="cta-banner text-center py-4 my-5">
+    <p class="cta-banner-title mb-2">Ainda não tem conta?</p>
+    <p class="cta-banner-text mb-3">Cadastre-se para adicionar jogos ao carrinho e acompanhar seus pedidos.</p>
+    <a href="{% url 'contas:cadastro' %}" class="btn btn-outline-primary">Criar conta</a>
+</section>
+{% endif %}
 
 {% endblock %}

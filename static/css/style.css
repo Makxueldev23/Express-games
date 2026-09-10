@@ -1,2 +1,775 @@
 ﻿/* static/css/style.css */
 /* Estilos globais do Express-games - sobrescreve/ajusta o Bootstrap */
+
+/* ==========================================================================
+   1. Base / tokens
+   - Paleta permitida: preto (#000), branco (#fff) e rosa (#FF00FF)
+   - Sombras usam preto/rosa com transparência (não são cores novas)
+   - Sem gradiente, sem emoji, sem traço decorativo
+   - Bordas de botão entre 4px e 8px
+   - Transições curtas e só em elementos interativos
+   ========================================================================== */
+
+:root {
+  --cor-preto: #000000;
+  --cor-branco: #ffffff;
+  --cor-rosa: #FF00FF;
+
+  --raio-borda: 6px;
+  --raio-borda-sm: 4px;
+  --raio-borda-lg: 8px;
+
+  --sombra-suave: 0 2px 8px rgba(0, 0, 0, 0.12);
+  --sombra-forte: 0 6px 16px rgba(0, 0, 0, 0.18);
+  --brilho-rosa: 0 0 0 3px rgba(255, 0, 255, 0.25);
+
+  --transicao: 0.18s ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--cor-branco);
+  color: var(--cor-preto);
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--cor-rosa);
+  text-decoration: none;
+  transition: color var(--transicao);
+}
+
+a:hover,
+a:focus {
+  color: var(--cor-preto);
+  text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--cor-preto);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  position: relative;
+  padding-left: 1rem;
+  margin-bottom: 1.25rem !important;
+}
+
+h1::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  bottom: 0.15em;
+  width: 5px;
+  background-color: var(--cor-rosa);
+  border-radius: var(--raio-borda-sm);
+}
+
+strong {
+  color: var(--cor-preto);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--cor-preto);
+  opacity: 0.15;
+}
+
+/* ==========================================================================
+   2. Navbar
+   ========================================================================== */
+
+.navbar {
+  background-color: var(--cor-preto) !important;
+  box-shadow: var(--sombra-suave);
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.navbar .navbar-brand {
+  color: var(--cor-branco);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  font-size: 1.25rem;
+}
+
+.navbar .navbar-brand::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: var(--cor-rosa);
+  border-radius: 2px;
+  margin-right: 0.5rem;
+  transform: rotate(45deg);
+}
+
+.navbar .nav-link {
+  color: var(--cor-branco);
+  font-weight: 500;
+  position: relative;
+  margin: 0 0.15rem;
+  padding-bottom: 0.25rem !important;
+}
+
+.navbar .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background-color: var(--cor-rosa);
+  transition: width var(--transicao);
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus,
+.navbar .nav-link.active {
+  color: var(--cor-rosa);
+}
+
+.navbar .nav-link:hover::after,
+.navbar .nav-link:focus::after,
+.navbar .nav-link.active::after {
+  width: 100%;
+}
+
+.navbar-toggler {
+  border-color: var(--cor-branco);
+  border-radius: var(--raio-borda-sm);
+}
+
+.navbar-toggler:focus {
+  box-shadow: var(--brilho-rosa);
+}
+
+.navbar-toggler-icon {
+  filter: invert(1);
+}
+
+/* ==========================================================================
+   3. Mensagens de feedback (django messages)
+   ========================================================================== */
+
+.alert {
+  background-color: var(--cor-branco);
+  color: var(--cor-preto);
+  border: 1px solid var(--cor-preto);
+  border-left: 4px solid var(--cor-rosa);
+  border-radius: var(--raio-borda);
+  padding: 0.85rem 1.1rem;
+  margin-bottom: 0.6rem;
+  box-shadow: var(--sombra-suave);
+}
+
+/* ==========================================================================
+   4. Botões
+   ========================================================================== */
+
+.btn {
+  border-radius: var(--raio-borda);
+  font-weight: 600;
+  border-width: 1px;
+  padding: 0.55rem 1.2rem;
+  transition: background-color var(--transicao), border-color var(--transicao),
+    color var(--transicao), box-shadow var(--transicao), transform var(--transicao);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background-color: var(--cor-rosa);
+  border-color: var(--cor-rosa);
+  color: var(--cor-preto);
+  box-shadow: 0 3px 0 0 var(--cor-preto);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--cor-preto);
+  border-color: var(--cor-preto);
+  color: var(--cor-branco);
+  box-shadow: 0 3px 0 0 var(--cor-rosa);
+}
+
+.btn-outline-primary {
+  background-color: transparent;
+  border-color: var(--cor-rosa);
+  color: var(--cor-rosa);
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  background-color: var(--cor-rosa);
+  border-color: var(--cor-rosa);
+  color: var(--cor-preto);
+}
+
+.btn-dark,
+.btn-secondary {
+  background-color: var(--cor-preto);
+  border-color: var(--cor-preto);
+  color: var(--cor-branco);
+}
+
+.btn-dark:hover,
+.btn-secondary:hover {
+  background-color: var(--cor-branco);
+  border-color: var(--cor-preto);
+  color: var(--cor-preto);
+}
+
+.btn-outline-dark {
+  background-color: transparent;
+  border-color: var(--cor-preto);
+  color: var(--cor-preto);
+}
+
+.btn-outline-dark:hover,
+.btn-outline-dark:focus {
+  background-color: var(--cor-preto);
+  border-color: var(--cor-preto);
+  color: var(--cor-branco);
+}
+
+.btn-sm {
+  padding: 0.35rem 0.8rem;
+  border-radius: var(--raio-borda-sm);
+}
+
+.btn-lg {
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--raio-borda-lg);
+}
+
+/* ==========================================================================
+   5. Formulários
+   ========================================================================== */
+
+form p {
+  margin-bottom: 1.1rem;
+}
+
+form label,
+.form-label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
+  color: var(--cor-preto);
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="number"],
+form input[type="file"],
+form select,
+form textarea,
+.form-control {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--cor-preto);
+  border-radius: var(--raio-borda);
+  background-color: var(--cor-branco);
+  color: var(--cor-preto);
+  transition: border-color var(--transicao), box-shadow var(--transicao);
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus,
+.form-control:focus {
+  outline: none;
+  border-color: var(--cor-rosa);
+  box-shadow: var(--brilho-rosa);
+}
+
+form input[type="checkbox"],
+form input[type="radio"] {
+  width: auto;
+  margin-right: 0.4rem;
+}
+
+/* ==========================================================================
+   6. Cards (catálogo, perfil, confirmações)
+   ========================================================================== */
+
+.card {
+  border: 1px solid var(--cor-preto);
+  border-radius: var(--raio-borda-lg);
+  background-color: var(--cor-branco);
+  height: 100%;
+  box-shadow: var(--sombra-suave);
+  transition: box-shadow var(--transicao), transform var(--transicao);
+}
+
+.card:hover {
+  box-shadow: var(--sombra-forte);
+  transform: translateY(-3px);
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.card-title {
+  color: var(--cor-preto);
+  font-weight: 700;
+}
+
+.card-title:hover {
+  color: var(--cor-rosa);
+}
+
+.card-text {
+  color: var(--cor-preto);
+  opacity: 0.85;
+}
+
+.card-img-top {
+  border-top-left-radius: var(--raio-borda-lg);
+  border-top-right-radius: var(--raio-borda-lg);
+  object-fit: cover;
+  height: 180px;
+}
+
+.badge-rosa {
+  display: inline-block;
+  background-color: var(--cor-rosa);
+  color: var(--cor-preto);
+  border-radius: var(--raio-borda-sm);
+  padding: 0.35em 0.75em;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge-outline {
+  display: inline-block;
+  background-color: transparent;
+  color: var(--cor-preto);
+  border: 1px solid var(--cor-preto);
+  border-radius: var(--raio-borda-sm);
+  padding: 0.35em 0.75em;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ==========================================================================
+   7. Paginação
+   ========================================================================== */
+
+.pagination {
+  gap: 0.3rem;
+}
+
+.pagination .page-link {
+  color: var(--cor-preto);
+  border: 1px solid var(--cor-preto);
+  border-radius: var(--raio-borda-sm);
+  transition: background-color var(--transicao), color var(--transicao);
+}
+
+.pagination .page-item.active .page-link {
+  background-color: var(--cor-rosa);
+  border-color: var(--cor-rosa);
+  color: var(--cor-preto);
+  font-weight: 700;
+}
+
+.pagination .page-item.disabled .page-link {
+  border-color: var(--cor-preto);
+  color: var(--cor-preto);
+  opacity: 0.55;
+}
+
+.pagination .page-link:hover {
+  background-color: var(--cor-preto);
+  color: var(--cor-branco);
+}
+
+/* ==========================================================================
+   8. Listas (pedidos, carrinho)
+   ========================================================================== */
+
+.list-group-item {
+  border: 1px solid var(--cor-preto);
+  border-radius: var(--raio-borda) !important;
+  margin-bottom: 0.6rem;
+  background-color: var(--cor-branco);
+  color: var(--cor-preto);
+  transition: box-shadow var(--transicao);
+}
+
+.list-group-item:hover {
+  box-shadow: var(--sombra-suave);
+}
+
+.empty-state {
+  border: 1px solid var(--cor-preto);
+  border-radius: var(--raio-borda-lg);
+  padding: 2rem;
+  text-align: center;
+  color: var(--cor-preto);
+  opacity: 0.7;
+}
+
+/* Carrinho */
+.cart-item-name {
+  font-weight: 700;
+  display: block;
+}
+
+.cart-item-meta {
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.cart-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--cor-preto);
+  border-radius: var(--raio-borda-lg);
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+}
+
+.cart-summary-label {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.cart-summary-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--cor-rosa);
+}
+
+/* Pedidos */
+.order-row-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--cor-preto);
+}
+
+.order-row-link:hover {
+  color: var(--cor-rosa);
+  text-decoration: none;
+}
+
+.order-row-title {
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   9. Cabeçalho de página / painel de filtro
+   ========================================================================== */
+
+.page-header {
+  margin-bottom: 1.5rem;
+}
+
+.page-header-subtitle {
+  opacity: 0.65;
+  margin-bottom: 0;
+}
+
+.filter-panel {
+  border: 1px solid var(--cor-preto);
+  border-radius: var(--raio-borda-lg);
+  padding: 1.25rem;
+  background-color: var(--cor-branco);
+}
+
+/* ==========================================================================
+   10. Home (hero, destaques, CTA)
+   ========================================================================== */
+
+.hero {
+  border: 1px solid var(--cor-preto);
+  border-radius: var(--raio-borda-lg);
+  background-color: var(--cor-branco);
+  box-shadow: var(--sombra-suave);
+}
+
+.feature-card {
+  border: 1px solid var(--cor-preto);
+  border-radius: var(--raio-borda-lg);
+  padding: 1.5rem;
+  height: 100%;
+  transition: box-shadow var(--transicao), transform var(--transicao);
+}
+
+.feature-card:hover {
+  box-shadow: var(--sombra-forte);
+  transform: translateY(-3px);
+}
+
+.feature-icon {
+  display: block;
+  width: 32px;
+  height: 32px;
+  background-color: var(--cor-rosa);
+  border-radius: var(--raio-borda-sm);
+  margin-bottom: 1rem;
+}
+
+.feature-title {
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.feature-text {
+  opacity: 0.75;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+.cta-banner {
+  border: 1px solid var(--cor-preto);
+  border-radius: var(--raio-borda-lg);
+  background-color: var(--cor-preto);
+  color: var(--cor-branco);
+}
+
+.cta-banner-title {
+  font-weight: 800;
+  font-size: 1.25rem;
+}
+
+.cta-banner-text {
+  opacity: 0.8;
+}
+
+/* ==========================================================================
+   11. Perfil
+   ========================================================================== */
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  border-radius: 50%;
+  background-color: var(--cor-preto);
+  color: var(--cor-branco);
+  font-weight: 800;
+  font-size: 1.4rem;
+}
+
+.profile-divider {
+  margin: 1.25rem 0;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.info-row:last-of-type {
+  border-bottom: none;
+}
+
+.info-label {
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+.info-value {
+  font-weight: 600;
+  text-align: right;
+}
+
+/* ==========================================================================
+   12. Login / cadastro / formulários de jogo (cards de autenticação)
+   ========================================================================== */
+
+.auth-subtitle,
+.confirm-text {
+  opacity: 0.7;
+  margin-bottom: 0;
+}
+
+.auth-footer-text {
+  text-align: center;
+}
+
+.confirm-card h1,
+.confirm-card .confirm-text {
+  text-align: center;
+}
+
+.confirm-card h1::before {
+  display: none;
+}
+
+/* ==========================================================================
+   13. Detalhe do jogo
+   ========================================================================== */
+
+.detail-image {
+  width: 100%;
+  border-radius: var(--raio-borda-lg);
+  border: 1px solid var(--cor-preto);
+  box-shadow: var(--sombra-suave);
+}
+
+.detail-image-placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--cor-preto);
+  border-radius: var(--raio-borda-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cor-preto);
+}
+
+.detail-image-placeholder span {
+  color: var(--cor-branco);
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+.detail-description {
+  opacity: 0.85;
+}
+
+.detail-price-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--cor-preto);
+  border-radius: var(--raio-borda-lg);
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+}
+
+.detail-price {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--cor-rosa);
+}
+
+.detail-stock {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* ==========================================================================
+   14. Rodapé
+   ========================================================================== */
+
+.site-footer {
+  background-color: var(--cor-preto);
+  color: var(--cor-branco);
+  border-top: 3px solid var(--cor-rosa);
+  padding-top: 2.5rem;
+}
+
+.site-footer-brand {
+  font-weight: 800;
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.site-footer-text {
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.site-footer-heading {
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  opacity: 0.6;
+  margin-bottom: 0.75rem;
+}
+
+.site-footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.site-footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.site-footer-links a {
+  color: var(--cor-branco);
+  opacity: 0.85;
+}
+
+.site-footer-links a:hover {
+  color: var(--cor-rosa);
+  opacity: 1;
+}
+
+.site-footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  margin-top: 2rem;
+  padding: 1.25rem 0;
+  text-align: center;
+  font-size: 0.85rem;
+  opacity: 0.65;
+}
+
+/* ==========================================================================
+   15. Scrollbar
+   ========================================================================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--cor-branco);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--cor-preto);
+  border-radius: var(--raio-borda-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--cor-rosa);
+}

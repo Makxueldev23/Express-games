@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Cancelar Pedido #{{ pedido.pk }}?</h1>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Confirmar cancelamento</button>
-</form>
-<a href="{% url 'pedidos:detalhe' pedido.pk %}">Voltar</a>
+<div class="row justify-content-center">
+  <div class="col-12 col-md-6 col-lg-5">
+    <div class="confirm-card card p-4">
+      <h1 class="mb-2">Cancelar Pedido #{{ pedido.pk }}?</h1>
+      <p class="confirm-text">Essa ação não pode ser desfeita.</p>
+      <form method="post" class="mb-2 mt-3">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-dark w-100">Confirmar cancelamento</button>
+      </form>
+      <a href="{% url 'pedidos:detalhe' pedido.pk %}" class="d-block text-center">Voltar</a>
+    </div>
+  </div>
+</div>
 {% endblock %}
