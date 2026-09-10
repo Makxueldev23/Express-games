@@ -1,13 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{% if jogo %}Editar Jogo{% else %}Cadastrar Jogo{% endif %}</h1>
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+    <div class="auth-card card p-4">
+      <h1 class="mb-1">{% if jogo %}Editar Jogo{% else %}Cadastrar Jogo{% endif %}</h1>
+      <p class="auth-subtitle mb-4">
+        {% if jogo %}Atualize as informações do jogo no catálogo.{% else %}Preencha os dados para adicionar um jogo ao catálogo.{% endif %}
+      </p>
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Salvar</button>
-</form>
+      <form method="post" enctype="multipart/form-data" class="mb-3">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary w-100">Salvar</button>
+      </form>
 
-<a href="{% url 'jogos:lista' %}">Cancelar</a>
+      <a href="{% url 'jogos:lista' %}" class="btn btn-outline-dark w-100">Cancelar</a>
+    </div>
+  </div>
+</div>
 {% endblock %}

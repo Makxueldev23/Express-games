@@ -1,32 +1,58 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{ jogo.nome }}</h1>
+<div class="row g-4">
+    <div class="col-12 col-md-5">
+        {% if jogo.imagem %}
+            <img src="{{ jogo.imagem.url }}" alt="{{ jogo.nome }}" class="img-fluid detail-image">
+        {% else %}
+            <div class="detail-image-placeholder">
+                <span>{{ jogo.nome|slice:":1"|upper }}</span>
+            </div>
+        {% endif %}
+    </div>
 
-{% if jogo.imagem %}
-    <img src="{{ jogo.imagem.url }}" alt="{{ jogo.nome }}">
-{% endif %}
+    <div class="col-12 col-md-7">
+        <h1 class="mb-2">{{ jogo.nome }}</h1>
+        <p class="badge-rosa mb-3">{{ jogo.get_tipo_midia_display }}</p>
 
-<p>{{ jogo.descricao }}</p>
-<p>Preço: R$ {{ jogo.preco }}</p>
-<p>Tipo de mídia: {{ jogo.get_tipo_midia_display }}</p>
-<p>Estoque: {% if jogo.tipo_midia == 'digital' %}Ilimitado{% else %}{{ jogo.estoque }}{% endif %}</p>
+        <p class="detail-description">{{ jogo.descricao }}</p>
 
-<p>Categorias: {% for categoria in jogo.categorias.all %}{{ categoria.nome }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-<p>Plataformas: {% for plataforma in jogo.plataformas.all %}{{ plataforma.nome }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+        <div class="detail-price-panel">
+            <span class="detail-price">R$ {{ jogo.preco }}</span>
+            <span class="detail-stock">
+                Estoque: {% if jogo.tipo_midia == 'digital' %}Ilimitado{% else %}{{ jogo.estoque }}{% endif %}
+            </span>
+        </div>
 
-{% if user.is_authenticated %}
-    <form method="post" action="{% url 'pedidos:adicionar_carrinho' jogo.pk %}">
-        {% csrf_token %}
-        <input type="number" name="quantidade" value="1" min="1">
-        <button type="submit">Adicionar ao carrinho</button>
-    </form>
-{% endif %}
+        <div class="info-row">
+            <span class="info-label">Categorias</span>
+            <span class="info-value">{% for categoria in jogo.categorias.all %}{{ categoria.nome }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Plataformas</span>
+            <span class="info-value">{% for plataforma in jogo.plataformas.all %}{{ plataforma.nome }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
+        </div>
 
-{% if user.is_staff %}
-    <a href="{% url 'jogos:editar' jogo.pk %}">Editar</a>
-    <a href="{% url 'jogos:excluir' jogo.pk %}">Excluir</a>
-{% endif %}
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'pedidos:adicionar_carrinho' jogo.pk %}" class="d-flex gap-2 align-items-end mt-4">
+                {% csrf_token %}
+                <div>
+                    <label class="form-label">Quantidade</label>
+                    <input type="number" name="quantidade" value="1" min="1" class="form-control" style="width: 90px;">
+                </div>
+                <button type="submit" class="btn btn-primary">Adicionar ao carrinho</button>
+            </form>
+        {% endif %}
 
-<a href="{% url 'jogos:lista' %}">Voltar ao catálogo</a>
+        {% if user.is_staff %}
+            <div class="d-flex gap-2 mt-3">
+                <a href="{% url 'jogos:editar' jogo.pk %}" class="btn btn-outline-dark">Editar</a>
+                <a href="{% url 'jogos:excluir' jogo.pk %}" class="btn btn-outline-dark">Excluir</a>
+            </div>
+        {% endif %}
+
+        <a href="{% url 'jogos:lista' %}" class="d-inline-block mt-3">Voltar ao catálogo</a>
+    </div>
+</div>
 {% endblock %}

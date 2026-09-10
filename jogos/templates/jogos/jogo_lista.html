@@ -1,58 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Catálogo de Jogos</h1>
+<div class="row justify-content-center">
+  <div class="col-12 col-md-7 col-lg-5">
+    <div class="auth-card card p-4">
+      <h1 class="mb-1">Editar perfil</h1>
+      <p class="auth-subtitle mb-4">Atualize seus dados de cadastro.</p>
 
-{% if messages %}
-  {% for message in messages %}
-    <p>{{ message }}</p>
-  {% endfor %}
-{% endif %}
+      <form method="post" class="mb-3">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary w-100">Salvar</button>
+      </form>
 
-<form method="get">
-    <input type="text" name="q" placeholder="Buscar por nome" value="{{ request.GET.q }}">
-
-    <select name="categoria">
-        <option value="">Todas as categorias</option>
-        {% for categoria in categorias %}
-            <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
-        {% endfor %}
-    </select>
-
-    <select name="plataforma">
-        <option value="">Todas as plataformas</option>
-        {% for plataforma in plataformas %}
-            <option value="{{ plataforma.id }}">{{ plataforma.nome }}</option>
-        {% endfor %}
-    </select>
-
-    <button type="submit">Filtrar</button>
-</form>
-
-{% if user.is_staff %}
-    <a href="{% url 'jogos:criar' %}">+ Cadastrar novo jogo</a>
-{% endif %}
-
-<ul>
-{% for jogo in jogos %}
-    <li>
-        <a href="{% url 'jogos:detalhe' jogo.pk %}">{{ jogo.nome }}</a>
-        — R$ {{ jogo.preco }} — {{ jogo.get_tipo_midia_display }}
-    </li>
-{% empty %}
-    <li>Nenhum jogo encontrado.</li>
-{% endfor %}
-</ul>
-
-{% if is_paginated %}
-    <div>
-        {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-        {% endif %}
-        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
-        {% endif %}
+      <a href="{% url 'contas:perfil' %}" class="btn btn-outline-dark w-100">Cancelar</a>
     </div>
-{% endif %}
+  </div>
+</div>
 {% endblock %}

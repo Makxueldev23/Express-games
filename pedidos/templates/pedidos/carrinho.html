@@ -1,30 +1,39 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Meu carrinho</h1>
+<h1 class="mb-4">Meu carrinho</h1>
 
-<ul>
+{% if itens %}
+<ul class="list-unstyled">
 {% for item in itens %}
-    <li>
-        {{ item.quantidade }}x {{ item.jogo.nome }} — R$ {{ item.subtotal }}
+    <li class="cart-item list-group-item d-flex justify-content-between align-items-center p-3">
+        <div>
+            <span class="cart-item-name">{{ item.jogo.nome }}</span>
+            <span class="cart-item-meta">{{ item.quantidade }}x &middot; R$ {{ item.subtotal }}</span>
+        </div>
         <form method="post" action="{% url 'pedidos:remover_carrinho' item.jogo.pk %}" style="display:inline">
             {% csrf_token %}
-            <button type="submit">Remover</button>
+            <button type="submit" class="btn btn-outline-dark btn-sm">Remover</button>
         </form>
     </li>
-{% empty %}
-    <li>Carrinho vazio.</li>
 {% endfor %}
 </ul>
 
-<p><strong>Total: R$ {{ total }}</strong></p>
+<div class="cart-summary">
+    <span class="cart-summary-label">Total</span>
+    <span class="cart-summary-value">R$ {{ total }}</span>
+</div>
 
-{% if itens %}
-<form method="post" action="{% url 'pedidos:finalizar' %}">
+<form method="post" action="{% url 'pedidos:finalizar' %}" class="mb-3 mt-3">
     {% csrf_token %}
-    <button type="submit">Fechar pedido</button>
+    <button type="submit" class="btn btn-primary">Fechar pedido</button>
 </form>
+
+{% else %}
+<div class="empty-state">
+    <p class="mb-0">Carrinho vazio.</p>
+</div>
 {% endif %}
 
-<a href="{% url 'jogos:lista' %}">Continuar comprando</a>
+<a href="{% url 'jogos:lista' %}" class="d-inline-block mt-3">Continuar comprando</a>
 {% endblock %}
